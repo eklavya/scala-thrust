@@ -1,92 +1,96 @@
 package com.eklavya.thrust
 
-abstract class Method
+import argonaut._,Argonaut._
 
-case object Empty extends Method
+object Methods {
 
-// Makes the window visible
-case object Show extends Method
+  implicit def methodToJson(m: Method): Json = Json("_method" -> jString(m.name))
 
+  abstract class Method {
+    val name: String
+  }
 
-// focus whether to focus or blur the window
-// Focuses or blur the window depending on the value of focus
-case object Focus extends Method
+  case object Empty extends Method {
+    override val name = ""
+  }
 
+  case object Show extends Method {
+    override val name = "show"
+  }
 
-// Maximizes the window
-case object Maximize extends Method
+  case object Focus extends Method {
+    override val name = "focus"
+  }
 
+  case object Maximize extends Method {
+    override val name = "maximize"
+  }
 
-// Minimizes the window
-case object Minimize extends Method
+  case object Minimize extends Method {
+    override val name = "minimize"
+  }
 
+  case object Restore extends Method {
+    override val name = "restore"
+  }
 
-// Restores a minimized window
-case object Restore extends Method
+  case object SetTitle extends Method {
+    override val name = "set_title"
+  }
 
+  case object SetFullscreen extends Method {
+    override val name = "set_fullscreen"
+  }
 
-// title the title to set
-// Sets the title of a window
-case object SetTitle extends Method
+  case object SetKiosk extends Method {
+    override val name = "set_kiosk"
+  }
 
+  case object OpenDevtools extends Method {
+    override val name = "open_devtools"
+  }
 
-// fullscreen whether to set the window fullscreen or not
-// Makes the window enter or leave fullscreen
-case object SetFullscreen extends Method
+  case object CloseDevtools extends Method {
+    override val name = "close_devtools"
+  }
 
+  case object Move extends Method {
+    override val name = "move"
+  }
 
-// kiosk whether to set the window in kiosk mode
-// Makes the window enter or leave kiosk mode
-case object SetKiosk extends Method
+  case object Resize extends Method {
+    override val name = "resize"
+  }
 
+  case object IsClosed extends Method {
+    override val name = "is_closed"
+  }
 
-// Opens the DevTools for this window's main document
-case object OpenDevtools extends Method
+  case object Size extends Method {
+    override val name = "size"
+  }
 
+  case object Position extends Method {
+    override val name = "position"
+  }
 
-// Closes the DevTools for this window's main document
-case object CloseDevtools extends Method
+  case object IsMaximized extends Method {
+    override val name = "is_maximized"
+  }
 
+  case object IsMinimized extends Method {
+    override val name = "is_minimized"
+  }
 
-// x the new x position
-// y the new y position
-// Moves the window to the specified position
-case object Move extends Method
+  case object IsFullscreen extends Method {
+    override val name = "is_fullscreen"
+  }
 
+  case object IsKiosed extends Method {
+    override val name = "is_kiosked"
+  }
 
-// width the new window width
-// height the new window height
-// Resizes the window to the specified size
-case object Resize extends Method
-
-
-// Returns wether the window has been closed or not (can't be reopened)
-case object IsClosed extends Method
-
-
-// Returns the size of the window
-case object Size extends Method
-
-
-// Returns the position of the window
-case object Position extends Method
-
-
-// Returns whether the window is maximized or not
-case object IsMaximized extends Method
-
-
-// Returns whether the window is minimized or not
-case object IsMinimized extends Method
-
-
-// Returns whether the window is in fullscreen mode or not
-case object IsFullscreen extends Method
-
-
-// Returns whether the window is in kiosk mode or not
-case object IsKiosed extends Method
-
-
-// Returns whether the window's main document has its DevTools opened or not
-case object IsDevtoolsOpened extends Method
+  case object IsDevtoolsOpened extends Method {
+    override val name = "is_devtools_opened"
+  }
+}

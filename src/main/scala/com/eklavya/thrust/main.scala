@@ -17,5 +17,7 @@ object Main extends App {
   p.getOutputStream.write((new String("{\"_id\":2,\"_action\":\"call\",\"_method\":\"show\",\"_target\":1,\"_args\":{\"size\":{},\"value\":false,\"cookie_store\":false,\"off_the_record\":false,\"focus\":false}}\n--(Foo)++__THRUST_SHELL_BOUNDARY__++(Bar)--")).getBytes)
   p.getOutputStream.write((new String("{\"_id\":3,\"_action\":\"call\",\"_method\":\"maximize\",\"_target\":1,\"_args\":{\"size\":{},\"value\":false,\"cookie_store\":false,\"off_the_record\":false,\"focus\":false}}\n--(Foo)++__THRUST_SHELL_BOUNDARY__++(Bar)--")).getBytes)
   p.getOutputStream.write((new String("{\"_id\":4,\"_action\":\"call\",\"_method\":\"focus\",\"_target\":1,\"_args\":{\"size\":{},\"value\":false,\"cookie_store\":false,\"off_the_record\":false,\"focus\":true}}\n--(Foo)++__THRUST_SHELL_BOUNDARY__++(Bar)--")).getBytes)
+  p.getOutputStream.write((new String("{\"_id\":5,\"_action\":\"call\",\"_method\":\"is_maximized\",\"_target\":1,\"_args\":{\"size\":{},\"value\":false,\"cookie_store\":false,\"off_the_record\":false,\"focus\":true}}\n--(Foo)++__THRUST_SHELL_BOUNDARY__++(Bar)--")).getBytes)
   p.getOutputStream.flush()
+  io.Source.fromInputStream(p.getInputStream).getLines() foreach println
 }

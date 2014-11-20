@@ -13,6 +13,8 @@ import scala.concurrent.Future
 
 case class Size(width: Int, height: Int)
 
+case class Position(x: Int, y: Int)
+
 case class Window(id: Int,
                   root_url: String,
                   size: Size,
@@ -151,6 +153,6 @@ case class Window(id: Int,
 
 object Window {
   def create(root_url: String, title: String, icon_path: String, size: Size = Size(1280, 720)): Unit = {
-    Sender.send(Command(Create, Empty, None,))
+//    Sender.send(Command(Create, Empty, None,))
   }
 }
