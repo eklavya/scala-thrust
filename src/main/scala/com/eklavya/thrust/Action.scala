@@ -1,16 +1,22 @@
 package com.eklavya.thrust
 
-import argonaut._,Argonaut._
+import argonaut.Argonaut._
+import argonaut._
 
 object Actions {
 
-abstract class Action
+  implicit def actionToJson(a: Action): (Json.JsonField, Json) = a.toJson
 
-case object Create extends Action
+  sealed abstract class Action {
+    def toJson: (Json.JsonField, Json)
+  }
 
-case object Call extends Action
+  case object CREATE extends Action {
+    override def toJson: (Json.JsonField, Json) = ("_action" -> jString("create"))
+  }
 
-  implicit def createToJson(c: Create.type): Json = Json("_action" -> jString("create"))
+  case object CALL extends Action {
+    override def toJson: (Json.JsonField, Json) = ("_action" -> jString("call"))
+  }
 
-  implicit def callToJson(c: Call.type): Json = Json("_action" -> jString("call"))
 }

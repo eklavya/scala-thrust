@@ -4,19 +4,12 @@ import scala.collection.concurrent.TrieMap
 import scala.concurrent.Promise
 
 private[thrust] object MessageBox {
-  private val promiseMap = TrieMap.empty[Int, Promise[_]]
+  private val promiseMap = TrieMap.empty[MessageId, Promise[_]]
 
-  def addBooleanPromise(id: Int, p: Promise[Boolean]): Unit = promiseMap += (id -> p)
+  def addPromise[T](id: MessageId, p: Promise[T]): Unit = promiseMap += (id -> p)
 
-  def addSizePromise(id: Int, p: Promise[Size]): Unit = promiseMap += (id -> p)
+  def removePromise(id: MessageId): Unit = promiseMap.remove(id)
 
-  def addPositionPromise(id: Int, p: Promise[Position]): Unit = promiseMap += (id -> p)
+  def getPromise[T](id: MessageId) = promiseMap(id).asInstanceOf[Promise[T]]
 
-  def removePromise(id: Int): Unit = promiseMap.remove(id)
-
-  def getBooleanPromise(id: Int) = promiseMap(id).asInstanceOf[Promise[Boolean]]
-
-  def getSizePromise(id: Int) = promiseMap(id).asInstanceOf[Promise[Size]]
-
-  def getPositionPromise(id: Int) = promiseMap(id).asInstanceOf[Promise[Position]]
 }

@@ -1,84 +1,34 @@
 package com.eklavya.thrust
 
-import argonaut._,Argonaut._
-import com.eklavya.thrust.JsonUtils.{Event, Reply}
+import argonaut.Argonaut._
+import argonaut._
+import com.eklavya.thrust.Arguments.{Position, Size}
+import com.eklavya.thrust.Replies.{Event, Reply}
+import com.typesafe.config.ConfigFactory
 
-object JsonUtils {
-
-  case class Result(target: Option[Int],
-                    size: Option[Size],
-                    position: Option[Position],
-                    maximize: Option[Boolean],
-                     kiosk: Option[Boolean],
-                     minimized: Option[Boolean],
-                     fullScreen: Option[Boolean],
-                     devToolsOpened: Option[Boolean],
-                     closed: Option[Boolean])
-
-  implicit def jsonToResult: DecodeJson[Result] = {
-    DecodeJson(r => for {
-      target <- (r --\ "_target").as[Option[Int]]
-      size <- (r --\ "size").as[Option[Size]]
-      position <- (r --\ "position").as[Option[Position]]
-      maximize <- (r --\ "maximize").as[Option[Boolean]]
-      kiosk <- (r --\ "kiosk").as[Option[Boolean]]
-      minimized <- (r --\ "minimized").as[Option[Boolean]]
-      fullscreen <- (r --\ "fullscreen").as[Option[Boolean]]
-      devToolsOpened <- (r --\ "devToolsOpened").as[Option[Boolean]]
-      closed <- (r --\ "closed").as[Option[Boolean]]
-    } yield Result(target, size, position, maximize, kiosk, minimized, fullscreen, devToolsOpened, closed))
-  }
-
-  case class Reply(action: String, error: Option[String], id: Int, result: Result)
-
-  implicit def jsonToReply: DecodeJson[Reply] = {
-    DecodeJson(r => for {
-      action <- (r --\ "_action").as[String]
-      error <- (r --\ "_error").as[Option[String]]
-      id <- (r --\ "_id").as[Int]
-      result <- (r --\ "_result").as[Result]
-    } yield Reply(action, error, id, result))
-  }
-//"_action":"event","_event":{},"_id":1,"_target":1,"_type":"focus"
-  case class Event(action: String, event: Option[String], id: Int, target: Int, _type: String)
-
-  implicit def jsonToEvent: DecodeJson[Event] = {
-    DecodeJson(e => for {
-      action <- (e --\ "_action").as[String]
-      event <- (e --\ "_event").as[Option[String]]
-      id <- (e --\ "_id").as[Int]
-      target <- (e --\ "_target").as[Int]
-      _type <- (e --\ "_type").as[String]
-    } yield Event(action, event, id, target, _type))
-  }
-}
-
-
+case class MessageId(id: Int) extends AnyVal
 
 object ThrustShell {
 
   val process = {
-    val pb = new ProcessBuilder("/Users/eklavya/Documents/thrust/out/Debug/ThrustShell.app/Contents/MacOS/ThrustShell")
+    val config = ConfigFactory.load()
+    val pb = new ProcessBuilder(config.getString("thrust_path"))
     pb.redirectErrorStream(true)
     pb.start
   }
 
-  val in = io.Source.fromInputStream(process.getInputStream).bufferedReader
+  val in = io.Source.fromInputStream(process.getInputStream).bufferedReader()
 
   val out = process.getOutputStream
 
   {
     new Thread(new Runnable {
-      def run: Unit = {
+      def run(): Unit = {
         var continue = true
         while (continue) {
           Option(in.readLine()).map { reply =>
             if (reply.contains("reply")) {
-                val r = reply.decode[Reply].toOption.get
-                val l = List(r.result.closed, r.result.devToolsOpened, r.result.fullScreen, r.result.kiosk, r.result.maximize, r.result.minimized).flatten
-                l.headOption.map(MessageBox.getBooleanPromise(r.id).success)
-                if (r.result.position.isDefined) r.result.position.map(MessageBox.getPositionPromise(r.id).success)
-                if (r.result.size.isDefined) r.result.size.map(MessageBox.getSizePromise(r.id).success)
+              handleReply(reply)
             } else if (reply.contains("event")) {
               reply.decode[Event]
             }
@@ -88,5 +38,20 @@ object ThrustShell {
         }
       }
     }).start()
+  }
+
+  def handleReply(reply: String) = {
+    val r = reply.decode[Reply].toOption.get
+    val res = r.result
+    val l = List(res.closed, res.devToolsOpened, res.fullScreen, res.kiosk, res.maximize, res.minimized).flatten
+    res.target.foreach(x => MessageBox.getPromise(r.id).success(x.id))
+    l.headOption.foreach(h => MessageBox.getPromise(r.id).success(h))
+    res.position.foreach(p => MessageBox.getPromise(r.id).success(p))
+    res.size.foreach(s => MessageBox.getPromise(r.id).success(s))
+  }
+
+  def handleEvent(event: String) = {
+    val e = event.decode[Event].toOption.get
+
   }
 }
