@@ -1,12 +1,12 @@
 package com.eklavya.thrust
 
-import argonaut.DecodeJson
+import argonaut._,Argonaut._
 import com.eklavya.thrust.Arguments.{Position, Size}
 
 /**
  * Created by eklavya on 11/22/14.
  */
-object Replies {
+private object Replies {
   case class Result(target: Option[WinId],
                     size: Option[Size],
                     position: Option[Position],
@@ -35,7 +35,7 @@ object Replies {
     DecodeJson(r => for {
       target <- (r --\ "_target").as[Option[Int]]
       size <- (r --\ "size").as[Option[Size]]
-      position <- (r --\ "position").as[Option[Arguments.Position]]
+      position <- (r --\ "position").as[Option[Position]]
       maximize <- (r --\ "maximize").as[Option[Boolean]]
       kiosk <- (r --\ "kiosk").as[Option[Boolean]]
       minimized <- (r --\ "minimized").as[Option[Boolean]]
@@ -57,15 +57,16 @@ object Replies {
   }
 
   //"_action":"event","_event":{},"_id":1,"_target":1,"_type":"focus"
-  case class Event(action: String, event: Option[String], id: MessageId, target: WinId, _type: String)
+//  case class EventReply(action: String, event: Option[JsonObject], id: MessageId, target: WinId, _type: String)
+  case class EventReply(action: String, id: MessageId, target: WinId, _type: String)
 
-  implicit def jsonToEvent: DecodeJson[Event] = {
+  implicit def jsonToEvent: DecodeJson[EventReply] = {
     DecodeJson(e => for {
       action <- (e --\ "_action").as[String]
-      event <- (e --\ "_event").as[Option[String]]
+//      event <- (e --\ "_event").as[Option[JsonObject]]
       id <- (e --\ "_id").as[Int]
       target <- (e --\ "_target").as[Int]
       _type <- (e --\ "_type").as[String]
-    } yield Event(action, event, MessageId(id), WinId(target), _type))
+    } yield EventReply(action, MessageId(id), WinId(target), _type))
   }
 }

@@ -11,6 +11,7 @@ package com.eklavya.thrust
 
 import com.eklavya.thrust.Actions.{CALL, CREATE}
 import com.eklavya.thrust.Arguments._
+import com.eklavya.thrust.Events._
 import com.eklavya.thrust.Methods._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -128,6 +129,21 @@ case class Window(_id: WinId,
 
   // Returns whether the window's main document has its DevTools opened or not
   def isDevtoolsOpened: Future[Boolean] = callAndGet(IS_DEV_TOOLS_OPENED)
+
+  def onBlur(f: Function0[Unit]) = Events.setCallback(_id, BLURED, f)
+
+  def onFocus(f: Function0[Unit]) = Events.setCallback(_id, FOCUSED, f)
+
+  //called on closed
+  Events.setCallback(_id, CLOSED, () => {
+    Events.removeForWindow(_id)
+  })
+
+  def onResponsive(f: Function0[Unit]) = Events.setCallback(_id, RESPONSIVE, f)
+
+  def onUnResponsive(f: Function0[Unit]) = Events.setCallback(_id, UNRESPONSIVE, f)
+
+  def onRendererCrashed(f: Function0[Unit]) = Events.setCallback(_id, WORKER_CRASHED, f)
 }
 
 object Window {

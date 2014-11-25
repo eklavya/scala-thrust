@@ -10,6 +10,8 @@ object Main extends App {
     w.maximize
     w.openDevtools
     w.focus(true)
+    w.onBlur(() => println("we were blurred"))
+    w.onFocus(() => println("we were focused"))
   }
   while (true) {}
 }

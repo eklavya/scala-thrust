@@ -7,7 +7,7 @@ import com.eklavya.thrust.Actions._
 import com.eklavya.thrust.Arguments._
 import com.eklavya.thrust.Methods._
 
-object Sender {
+private object Sender {
   var nextId = new AtomicInteger(1)
   val boundary = "\n--(Foo)++__THRUST_SHELL_BOUNDARY__++(Bar)--\n"
 

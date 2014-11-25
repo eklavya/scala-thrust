@@ -3,12 +3,14 @@ package com.eklavya.thrust
 import argonaut.Argonaut._
 import argonaut._
 import com.eklavya.thrust.Arguments.{Position, Size}
-import com.eklavya.thrust.Replies.{Event, Reply}
+import com.eklavya.thrust.Replies.{EventReply, Reply}
 import com.typesafe.config.ConfigFactory
+
+import scala.concurrent.Future
 
 case class MessageId(id: Int) extends AnyVal
 
-object ThrustShell {
+private object ThrustShell {
 
   val process = {
     val config = ConfigFactory.load()
@@ -30,7 +32,7 @@ object ThrustShell {
             if (reply.contains("reply")) {
               handleReply(reply)
             } else if (reply.contains("event")) {
-              reply.decode[Event]
+              handleEvent(reply)
             }
           }.getOrElse {
             continue = false
@@ -51,7 +53,8 @@ object ThrustShell {
   }
 
   def handleEvent(event: String) = {
-    val e = event.decode[Event].toOption.get
-
+    event.decode[EventReply].toOption.map { e =>
+      Events.callback(e.target, Events.fromString(e._type))
+    }
   }
 }
