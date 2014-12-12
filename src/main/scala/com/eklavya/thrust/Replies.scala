@@ -1,6 +1,7 @@
 package com.eklavya.thrust
 
-import argonaut._,Argonaut._
+import argonaut.Argonaut._
+import argonaut._
 import com.eklavya.thrust.Arguments.{Position, Size}
 
 /**
@@ -56,17 +57,28 @@ private object Replies {
     } yield Reply(action, error, MessageId(id), result))
   }
 
+
+  //_event":{"command_id":1,"event_flags":16},"
+  case class EventFields(commandId: Option[Int], eventFlags: Option[Int])
+
+  implicit def jsonToEventFields: DecodeJson[EventFields] = {
+    DecodeJson(ef => for {
+      commandId <- (ef --\ "command_id").as[Option[Int]]
+      eventFlags <- (ef --\ "event_flags").as[Option[Int]]
+    } yield EventFields(commandId, eventFlags))
+  }
+
   //"_action":"event","_event":{},"_id":1,"_target":1,"_type":"focus"
 //  case class EventReply(action: String, event: Option[JsonObject], id: MessageId, target: WinId, _type: String)
-  case class EventReply(action: String, id: MessageId, target: WinId, _type: String)
+  case class EventReply(action: String, ef: EventFields, id: MessageId, target: Int, _type: String)
 
   implicit def jsonToEvent: DecodeJson[EventReply] = {
     DecodeJson(e => for {
       action <- (e --\ "_action").as[String]
-//      event <- (e --\ "_event").as[Option[JsonObject]]
+      event <- (e --\ "_event").as[EventFields]
       id <- (e --\ "_id").as[Int]
       target <- (e --\ "_target").as[Int]
       _type <- (e --\ "_type").as[String]
-    } yield EventReply(action, MessageId(id), WinId(target), _type))
+    } yield EventReply(action, event, MessageId(id), target, _type))
   }
 }

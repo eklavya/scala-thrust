@@ -18,7 +18,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.reflect.ClassTag
 
-case class WinId(id: Int) extends AnyVal
+
 
 case class Window(_id: WinId,
                   root_url: String,
@@ -130,20 +130,20 @@ case class Window(_id: WinId,
   // Returns whether the window's main document has its DevTools opened or not
   def isDevtoolsOpened: Future[Boolean] = callAndGet(IS_DEV_TOOLS_OPENED)
 
-  def onBlur(f: Function0[Unit]) = Events.setCallback(_id, BLURED, f)
+  def onBlur(f: Function0[Unit]) = Events.setCallback(_id, BLURRED, _ => f())
 
-  def onFocus(f: Function0[Unit]) = Events.setCallback(_id, FOCUSED, f)
+  def onFocus(f: Function0[Unit]) = Events.setCallback(_id, FOCUSED, _ => f())
 
   //called on closed
-  Events.setCallback(_id, CLOSED, () => {
+  Events.setCallback(_id, CLOSED, _ => {
     Events.removeForWindow(_id)
   })
 
-  def onResponsive(f: Function0[Unit]) = Events.setCallback(_id, RESPONSIVE, f)
+  def onResponsive(f: Function0[Unit]) = Events.setCallback(_id, RESPONSIVE, _ => f())
 
-  def onUnResponsive(f: Function0[Unit]) = Events.setCallback(_id, UNRESPONSIVE, f)
+  def onUnResponsive(f: Function0[Unit]) = Events.setCallback(_id, UNRESPONSIVE, _ => f())
 
-  def onRendererCrashed(f: Function0[Unit]) = Events.setCallback(_id, WORKER_CRASHED, f)
+  def onRendererCrashed(f: Function0[Unit]) = Events.setCallback(_id, WORKER_CRASHED, _ => f())
 }
 
 object Window {

@@ -94,4 +94,72 @@ object Methods {
   case object IS_DEV_TOOLS_OPENED extends Method {
     override val name = "is_devtools_opened"
   }
+
+  case object VISITED_LINK_ADD extends Method {
+    override val name = "visitedlink_add"
+  }
+
+  case object VISITED_LINK_CLEAR extends Method {
+    override val name = "visitedlink_clear"
+  }
+
+  case object PROXY_SET extends Method {
+    override val name = "proxy_set"
+  }
+
+  case object PROXY_CLEAR extends Method {
+    override val name = "proxy_clear"
+  }
+
+  case object IS_OFF_THE_RECORD extends Method {
+    override val name = "is_off_the_record"
+  }
+
+  case object ADD_ITEM extends Method {
+    override val name = "add_item"
+  }
+
+  case object ADD_CHECK_ITEM extends Method {
+    override val name = "add_check_item"
+  }
+
+  case object ADD_RADIO_ITEM extends Method {
+    override val name = "add_radio_item"
+  }
+
+  case object ADD_SEPARATOR extends Method {
+    override val name = "add_separator"
+  }
+
+  case object SET_CHECKED extends Method {
+    override val name = "set_checked"
+  }
+
+  case object SET_ENABLED extends Method {
+    override val name = "set_enabled"
+  }
+
+  case object SET_VISIBLE extends Method {
+    override val name = "set_visible"
+  }
+
+  case object SET_ACCELERATOR extends Method {
+    override val name = "set_accelerator"
+  }
+
+  case object ADD_SUBMENU extends Method {
+    override val name = "add_submenu"
+  }
+
+  case object CLEAR extends Method {
+    override val name = "clear "
+  }
+
+  case object POPUP extends Method {
+    override val name = "popup"
+  }
+
+  case object SET_APPLICATION_MENU extends Method {
+    override val name = "set_application_menu"
+  }
 }
