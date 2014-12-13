@@ -1,6 +1,6 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
-import com.eklavya.thrust.Replies.Args
+import com.github.eklavya.thrust.Replies.Args
 
 import scala.collection.concurrent.TrieMap
 import scala.concurrent.ExecutionContext.Implicits.global

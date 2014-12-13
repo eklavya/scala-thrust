@@ -1,11 +1,11 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.eklavya.thrust.Actions.{CALL, CREATE}
-import com.eklavya.thrust.Arguments._
-import com.eklavya.thrust.Events.EXECUTE
-import com.eklavya.thrust.Methods._
+import com.github.eklavya.thrust.Actions.{CALL, CREATE}
+import com.github.eklavya.thrust.Arguments._
+import com.github.eklavya.thrust.Events.EXECUTE
+import com.github.eklavya.thrust.Methods._
 
 import scala.collection.concurrent.TrieMap
 import scala.collection.mutable.Seq

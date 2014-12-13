@@ -7,12 +7,12 @@
 //  has_frame creates a frameless window if true
 //session_id the id of the session to use for this window
 
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
-import com.eklavya.thrust.Actions.{CALL, CREATE}
-import com.eklavya.thrust.Arguments._
-import com.eklavya.thrust.Events._
-import com.eklavya.thrust.Methods._
+import com.github.eklavya.thrust.Actions.{CALL, CREATE}
+import com.github.eklavya.thrust.Arguments._
+import com.github.eklavya.thrust.Events._
+import com.github.eklavya.thrust.Methods._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}

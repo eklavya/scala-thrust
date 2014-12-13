@@ -1,12 +1,12 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
 import java.text.SimpleDateFormat
 
 import argonaut.Argonaut._
 import argonaut._
-import com.eklavya.thrust.Arguments.{Position, Size}
-import com.eklavya.thrust.RemoteArguments.Cookie
-import com.eklavya.thrust.RemoteMethods.RemoteMethod
+import com.github.eklavya.thrust.Arguments.{Position, Size}
+import com.github.eklavya.thrust.RemoteArguments.Cookie
+import com.github.eklavya.thrust.RemoteMethods.RemoteMethod
 
 /**
  * Created by eklavya on 11/22/14.

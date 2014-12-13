@@ -1,11 +1,11 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
 import java.util.concurrent.atomic.AtomicInteger
 
 import argonaut.Argonaut._
-import com.eklavya.thrust.Actions._
-import com.eklavya.thrust.Arguments._
-import com.eklavya.thrust.Methods._
+import com.github.eklavya.thrust.Actions._
+import com.github.eklavya.thrust.Arguments._
+import com.github.eklavya.thrust.Methods._
 
 sealed trait TargetId extends Any {
   val id: Int

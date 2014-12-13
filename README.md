@@ -5,11 +5,13 @@ Thrust bindings for Scala
 
 How to use
 ==========
-Point to thrustshell binary in config. Then:
+Point to thrustshell binary in application.conf.
+
+Then use activator run inside example to run.
 
 ```scala
 import scala.concurrent.ExecutionContext.Implicits.global
-import com.eklavya.thrust._
+import com.github.eklavya.thrust._
 
 object Main extends App {
   Window.create("http://google.com").foreach { w =>

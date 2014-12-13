@@ -1,6 +1,6 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
-import com.eklavya.thrust.Replies.EventFields
+import com.github.eklavya.thrust.Replies.EventFields
 
 import scala.collection.concurrent.TrieMap
 import scala.concurrent.ExecutionContext.Implicits.global

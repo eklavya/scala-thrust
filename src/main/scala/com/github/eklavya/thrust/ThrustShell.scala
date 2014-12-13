@@ -1,7 +1,7 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
 import argonaut.Argonaut._
-import com.eklavya.thrust.Replies.{EventReply, Reply}
+import com.github.eklavya.thrust.Replies.{EventReply, Reply}
 import com.typesafe.config.ConfigFactory
 
 

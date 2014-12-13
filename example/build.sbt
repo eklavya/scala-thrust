@@ -1,4 +1,4 @@
-name := """scala-thrust"""
+name := """scala-thrust-example"""
 
 version := "1.0"
 

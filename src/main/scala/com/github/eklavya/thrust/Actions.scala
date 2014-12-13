@@ -1,4 +1,4 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
 import argonaut.Argonaut._
 import argonaut._

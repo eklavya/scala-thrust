@@ -1,12 +1,12 @@
-package com.eklavya.thrust
+package com.github.eklavya.thrust
 
 import java.util.Date
 
-import com.eklavya.thrust.Actions._
-import com.eklavya.thrust.Arguments._
-import com.eklavya.thrust.Methods.{EMPTY, IS_OFF_THE_RECORD, VISITED_LINK_ADD, VISITED_LINK_CLEAR}
-import com.eklavya.thrust.RemoteArguments.Cookie
-import com.eklavya.thrust.RemoteMethods.{COOKIES_DELETE, COOKIES_LOAD, COOKIES_LOAD_FOR_KEY, COOKIES_UPDATE_ACCESS_TIME}
+import com.github.eklavya.thrust.Actions._
+import com.github.eklavya.thrust.Arguments._
+import com.github.eklavya.thrust.Methods.{EMPTY, IS_OFF_THE_RECORD, VISITED_LINK_ADD, VISITED_LINK_CLEAR}
+import com.github.eklavya.thrust.RemoteArguments.Cookie
+import com.github.eklavya.thrust.RemoteMethods.{COOKIES_DELETE, COOKIES_LOAD, COOKIES_LOAD_FOR_KEY, COOKIES_UPDATE_ACCESS_TIME}
 
 import scala.collection.mutable.{HashMap, MultiMap, Set}
 import scala.concurrent.ExecutionContext.Implicits.global
