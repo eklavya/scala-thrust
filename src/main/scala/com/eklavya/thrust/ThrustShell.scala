@@ -28,7 +28,11 @@ private object ThrustShell {
           Option(in.readLine()).map { reply =>
             println(reply)
             if (reply.contains("reply")) {
-              handleReply(reply)
+              val r = reply.decode[Reply].toOption.get
+              if (r.method.isDefined)
+                handleRemoteMethods(r)
+              else
+                handleReply(r)
             } else if (reply.contains("event")) {
               handleEvent(reply)
             }
@@ -40,8 +44,7 @@ private object ThrustShell {
     }).start()
   }
 
-  def handleReply(reply: String) = {
-    val r = reply.decode[Reply].toOption.get
+  def handleReply(r: Reply) = {
     val res = r.result
     val l = List(res.closed, res.devToolsOpened, res.fullScreen, res.kiosk, res.maximize, res.minimized).flatten
     res.target.foreach(x => MessageBox.getPromise(r.id).success(x.id))
@@ -54,5 +57,9 @@ private object ThrustShell {
     event.decode[EventReply].toOption.map { e =>
       Events.callback(e.target, Events.fromString(e._type), e.ef)
     }
+  }
+
+  def handleRemoteMethods(r: Reply) = {
+    val method = r.method
   }
 }

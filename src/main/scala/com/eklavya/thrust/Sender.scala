@@ -15,9 +15,11 @@ case class WinId(id: Int) extends AnyVal with TargetId
 
 case class MenuId(id: Int) extends AnyVal with TargetId
 
+case class SessionId(id: Int) extends AnyVal with TargetId
+
 private object Sender {
-  var nextId = new AtomicInteger(1)
   val boundary = "\n--(Foo)++__THRUST_SHELL_BOUNDARY__++(Bar)--\n"
+  var nextId = new AtomicInteger(1)
 
   def sendCommand(action: Action,
                   method: Method,

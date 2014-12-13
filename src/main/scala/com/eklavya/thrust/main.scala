@@ -1,4 +1,4 @@
-package com.eklavya.thrust
+import com.eklavya.thrust._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 

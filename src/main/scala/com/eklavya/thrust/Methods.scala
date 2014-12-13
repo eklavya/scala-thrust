@@ -162,4 +162,5 @@ object Methods {
   case object SET_APPLICATION_MENU extends Method {
     override val name = "set_application_menu"
   }
+
 }

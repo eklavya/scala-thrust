@@ -19,7 +19,6 @@ import scala.concurrent.{Future, Promise}
 import scala.reflect.ClassTag
 
 
-
 case class Window(_id: WinId,
                   root_url: String,
                   size: Size,

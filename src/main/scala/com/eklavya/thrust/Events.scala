@@ -7,9 +7,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /**
-* Created by eklavya on 11/23/14.
-*/
+ * Created by eklavya on 11/23/14.
+ */
 private object Events {
+
+  val callbackMap = TrieMap.empty[(Int, Event), Function1[EventFields, Unit]]
 
   def fromString(s: String): Event = {
     s match {
@@ -20,6 +22,22 @@ private object Events {
       case "responsive" => RESPONSIVE
       case "worker_crashed" => WORKER_CRASHED
       case "execute" => EXECUTE
+    }
+  }
+
+  def callback(id: Int, e: Event, ef: EventFields): Unit = {
+    Future {
+      callbackMap((id, e))(ef)
+    }
+  }
+
+  def setCallback(id: TargetId, e: Event, f: Function1[EventFields, Unit]): Unit = {
+    callbackMap.update((id.id, e), f)
+  }
+
+  def removeForWindow(id: WinId): Unit = {
+    List(BLURRED, FOCUSED, CLOSED, UNRESPONSIVE, RESPONSIVE, WORKER_CRASHED) foreach { e =>
+      callbackMap.remove((id.id, e))
     }
   }
 
@@ -38,22 +56,4 @@ private object Events {
   case object WORKER_CRASHED extends Event
 
   case object EXECUTE extends Event
-
-  val callbackMap = TrieMap.empty[(Int, Event), Function1[EventFields, Unit]]
-
-  def callback(id: Int, e: Event, ef: EventFields): Unit = {
-    Future {
-      callbackMap((id, e))(ef)
-    }
-  }
-
-  def setCallback(id: TargetId, e: Event, f: Function1[EventFields, Unit]): Unit = {
-    callbackMap.update((id.id, e), f)
-  }
-
-  def removeForWindow(id: WinId): Unit = {
-    List(BLURRED, FOCUSED, CLOSED, UNRESPONSIVE, RESPONSIVE, WORKER_CRASHED) foreach { e =>
-      callbackMap.remove((id.id, e))
-    }
-  }
 }

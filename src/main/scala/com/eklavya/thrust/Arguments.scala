@@ -5,11 +5,11 @@ import argonaut._
 
 object Arguments {
 
+  implicit def argumentToJson(a: Argument): (Json.JsonField, Json) = a.toJson
+
   sealed abstract class Argument {
     def toJson: (Json.JsonField, Json)
   }
-
-  implicit def argumentToJson(a: Argument): (Json.JsonField, Json) = a.toJson
 
   case class RootUrl(v: String) extends Argument {
     override def toJson = "root_url" -> jString(v)
@@ -74,4 +74,9 @@ object Arguments {
   case class Arg_WindowId(id: WinId) extends Argument {
     override def toJson = "window_id" -> jNumber(id.id)
   }
+
+  case class Path(s: String) extends Argument {
+    override val toJson = "path" -> jString(s)
+  }
+
 }
