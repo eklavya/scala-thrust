@@ -1,7 +1,7 @@
 scala-thrust
 ============
 
-Thrust bindings for Scala
+[Thrust](https://github.com/breach/thrust/) bindings for Scala
 
 How to use
 ==========
