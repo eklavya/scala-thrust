@@ -5,7 +5,10 @@ scala-thrust
 
 How to use
 ==========
-Point to thrustshell binary in application.conf.
+The Thrust runtime is platform specific. Latest release may be found [here](https://github.com/breach/thrust/releases)
+
+Point to the thrustshell binary in application.conf.
+
 
 Then use activator run inside example to run.
 
