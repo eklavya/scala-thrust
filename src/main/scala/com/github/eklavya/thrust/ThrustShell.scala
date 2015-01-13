@@ -16,6 +16,8 @@ private object ThrustShell {
     pb.start
   }
 
+  def cleanup = process.destroy()
+
   val in = io.Source.fromInputStream(process.getInputStream).bufferedReader()
 
   val out = process.getOutputStream
@@ -26,7 +28,7 @@ private object ThrustShell {
         var continue = true
         while (continue) {
           Option(in.readLine()).map { reply =>
-            println(reply)
+//            println(reply)
             if (reply.contains("reply")) {
               val r = reply.decode[Reply].toOption.get
               if (r.method.isDefined)

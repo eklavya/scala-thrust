@@ -8,12 +8,16 @@ object Main extends App {
     w.maximize
     w.openDevtools
     w.focus(true)
-    w.onBlur(() => println("we were blurred"))
-    w.onFocus(() => println("we were focused"))
+    w.onBlur(println("we were blurred"))
+    w.onFocus(println("we were focused"))
     Menu.create("MyMenu").foreach { m =>
       val i = MenuItem("Item1", _ => println("Item1 was clicked"))
       m.addItem(i)
       m.popup(w)
+    }
+    w.onClosed {
+      println("we were closed")
+      System.exit(0)
     }
   }
 }

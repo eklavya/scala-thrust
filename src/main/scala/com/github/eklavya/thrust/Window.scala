@@ -129,20 +129,30 @@ case class Window(_id: WinId,
   // Returns whether the window's main document has its DevTools opened or not
   def isDevtoolsOpened: Future[Boolean] = callAndGet(IS_DEV_TOOLS_OPENED)
 
-  def onBlur(f: Function0[Unit]) = Events.setCallback(_id, BLURRED, _ => f())
+  def onBlur(f: => Unit) = Events.setCallback(_id, BLURRED, _ => f)
 
-  def onFocus(f: Function0[Unit]) = Events.setCallback(_id, FOCUSED, _ => f())
+  def onFocus(f: => Unit) = Events.setCallback(_id, FOCUSED, _ => f)
+
+  var closedHandler: Function0[Unit] = () => ()
+
+  def onClosed(f: => Unit, exiting: Boolean = true) = {
+    closedHandler.synchronized(closedHandler = () => {
+      if (exiting) ThrustShell.cleanup
+      f
+    })
+  }
 
   //called on closed
   Events.setCallback(_id, CLOSED, _ => {
     Events.removeForWindow(_id)
+    closedHandler()
   })
 
-  def onResponsive(f: Function0[Unit]) = Events.setCallback(_id, RESPONSIVE, _ => f())
+  def onResponsive(f: => Unit) = Events.setCallback(_id, RESPONSIVE, _ => f)
 
-  def onUnResponsive(f: Function0[Unit]) = Events.setCallback(_id, UNRESPONSIVE, _ => f())
+  def onUnResponsive(f: => Unit) = Events.setCallback(_id, UNRESPONSIVE, _ => f)
 
-  def onRendererCrashed(f: Function0[Unit]) = Events.setCallback(_id, WORKER_CRASHED, _ => f())
+  def onRendererCrashed(f: => Unit) = Events.setCallback(_id, WORKER_CRASHED, _ => f)
 }
 
 object Window {
